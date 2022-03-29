@@ -3,17 +3,13 @@ class Yatzy:
         self.dice = [d1, d2, d3, d4, d5]
 
     def chance(self):
+        """The player scores the sum of all dice, no matter what they read"""
         self.dice
         return sum(self.dice)
 
-    @staticmethod
-    def yatzy(dice):
-        counts = [0] * (len(dice) + 1)
-        for die in dice:
-            counts[die - 1] += 1
-        for i in range(len(counts)):
-            if counts[i] == 5:
-                return 50
+    def yatzy(self):
+        if len(set(self.dice)) == 1:
+            return 50
         return 0
 
     @staticmethod

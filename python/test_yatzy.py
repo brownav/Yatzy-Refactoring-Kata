@@ -6,15 +6,11 @@ from yatzy import Yatzy
 
 def test_chance_scores_sum_of_all_dice():
     assert Yatzy(2, 3, 4, 5, 1).chance() == 15
-    assert Yatzy(3, 3, 4, 5, 1).chance() == 16
 
 
 def test_yatzy_scores_50():
-    expected = 50
-    actual = Yatzy.yatzy([4, 4, 4, 4, 4])
-    assert expected == actual
-    assert 50 == Yatzy.yatzy([6, 6, 6, 6, 6])
-    assert 0 == Yatzy.yatzy([6, 6, 6, 6, 3])
+    assert Yatzy(4, 4, 4, 4, 4).yatzy() == 50
+    assert Yatzy(6, 6, 6, 6, 3).yatzy() == 0
 
 
 def test_1s():
