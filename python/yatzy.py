@@ -12,20 +12,14 @@ class Yatzy:
             return 50
         return 0
 
-    @staticmethod
-    def ones(d1, d2, d3, d4, d5):
-        sum = 0
-        if d1 == 1:
-            sum += 1
-        if d2 == 1:
-            sum += 1
-        if d3 == 1:
-            sum += 1
-        if d4 == 1:
-            sum += 1
-        if d5 == 1:
-            sum += 1
+    def ones(self):
+        return self._sum_dice_target(1)
 
+    def _sum_dice_target(self, target):
+        sum = 0
+        for die in self.dice:
+            if die == target:
+                sum += target
         return sum
 
     @staticmethod
