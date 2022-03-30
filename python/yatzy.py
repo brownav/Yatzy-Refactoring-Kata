@@ -3,11 +3,11 @@ class Yatzy:
         self.dice = [d1, d2, d3, d4, d5]
 
     def chance(self):
-        """The player scores the sum of all dice, no matter what they read"""
-        self.dice
+        """Scores the sum of all dice, no matter what they read"""
         return sum(self.dice)
 
     def yatzy(self):
+        """If all dice have the same number, score 50 points"""
         if len(set(self.dice)) == 1:
             return 50
         return 0
@@ -15,98 +15,50 @@ class Yatzy:
     def ones(self):
         return self._sum_dice_target(1)
 
-    def _sum_dice_target(self, target):
-        sum = 0
-        for die in self.dice:
-            if die == target:
-                sum += target
-        return sum
+    def twos(self):
+        return self._sum_dice_target(2)
 
-    @staticmethod
-    def twos(d1, d2, d3, d4, d5):
-        sum = 0
-        if d1 == 2:
-            sum += 2
-        if d2 == 2:
-            sum += 2
-        if d3 == 2:
-            sum += 2
-        if d4 == 2:
-            sum += 2
-        if d5 == 2:
-            sum += 2
-        return sum
-
-    @staticmethod
-    def threes(d1, d2, d3, d4, d5):
-        s = 0
-        if d1 == 3:
-            s += 3
-        if d2 == 3:
-            s += 3
-        if d3 == 3:
-            s += 3
-        if d4 == 3:
-            s += 3
-        if d5 == 3:
-            s += 3
-        return s
+    def threes(self):
+        return self._sum_dice_target(3)
 
     def fours(self):
-        sum = 0
-        for at in range(5):
-            if self.dice[at] == 4:
-                sum += 4
-        return sum
+        return self._sum_dice_target(4)
 
     def fives(self):
-        s = 0
-        i = 0
-        for i in range(len(self.dice)):
-            if self.dice[i] == 5:
-                s = s + 5
-        return s
+        return self._sum_dice_target(5)
 
     def sixes(self):
-        sum = 0
-        for at in range(len(self.dice)):
-            if self.dice[at] == 6:
-                sum = sum + 6
-        return sum
+        return self._sum_dice_target(6)
 
-    @staticmethod
-    def score_pair(d1, d2, d3, d4, d5):
-        counts = [0] * 6
-        counts[d1 - 1] += 1
-        counts[d2 - 1] += 1
-        counts[d3 - 1] += 1
-        counts[d4 - 1] += 1
-        counts[d5 - 1] += 1
-        at = 0
-        for at in range(6):
-            if counts[6 - at - 1] == 2:
-                return (6 - at) * 2
+    def score_pair(self):
+        """Scores the sum of the two highest matching dice"""
+        reversed_sorted_dice = sorted(self.dice, reverse=True)
+
+        for i in range(len(reversed_sorted_dice) - 1):
+            if reversed_sorted_dice[i] == reversed_sorted_dice[i + 1]:
+                return reversed_sorted_dice[i] * 2
         return 0
 
-    @staticmethod
-    def two_pair(d1, d2, d3, d4, d5):
-        counts = [0] * 6
-        counts[d1 - 1] += 1
-        counts[d2 - 1] += 1
-        counts[d3 - 1] += 1
-        counts[d4 - 1] += 1
-        counts[d5 - 1] += 1
-        n = 0
-        score = 0
-        for i in range(6):
-            if counts[6 - i - 1] >= 2:
-                n = n + 1
-                score += 6 - i
+    def _sum_dice_target(self, target):
+        count = self.dice.count(target)
+        return count * target
 
-        if n == 2:
-            return score * 2
-        else:
-            return 0
+    def two_pair(self):
+        """Scores the sum of the two highest matching dice"""
+        reversed_sorted_dice = sorted(self.dice, reverse=True)
+
+        sum = 0
+        pairs = 0
+        i = 0
+        while i < len(self.dice) - 1:
+            if reversed_sorted_dice[i] == reversed_sorted_dice[i + 1]:
+                sum += reversed_sorted_dice[i] * 2
+                pairs += 1
+                i += 1
+            if pairs == 2:
+                return sum
+            i += 1
+        return 0
 
     @staticmethod
     def four_of_a_kind(_1, _2, d3, d4, d5):

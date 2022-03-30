@@ -9,8 +9,8 @@ def test_chance_scores_sum_of_all_dice():
 
 
 def test_yatzy_scores_50():
-    assert Yatzy(4, 4, 4, 4, 4).yatzy() == 50
     assert Yatzy(6, 6, 6, 6, 3).yatzy() == 0
+    assert Yatzy(4, 4, 4, 4, 4).yatzy() == 50
 
 
 def test_ones():
@@ -19,44 +19,46 @@ def test_ones():
     assert Yatzy(1, 2, 1, 1, 1).ones() == 4
 
 
-def test_2s():
-    assert 4 == Yatzy.twos(1, 2, 3, 2, 6)
-    assert 10 == Yatzy.twos(2, 2, 2, 2, 2)
+def test_twos():
+    assert Yatzy(6, 1, 1, 4, 5).twos() == 0
+    assert Yatzy(1, 2, 3, 4, 5).twos() == 2
+    assert Yatzy(1, 2, 2, 2, 2).twos() == 8
 
 
 def test_threes():
-    assert 6 == Yatzy.threes(1, 2, 3, 2, 3)
-    assert 12 == Yatzy.threes(2, 3, 3, 3, 3)
+    assert Yatzy(6, 1, 1, 4, 5).threes() == 0
+    assert Yatzy(1, 2, 3, 4, 5).threes() == 3
+    assert Yatzy(1, 3, 3, 3, 3).threes() == 12
 
 
-def test_fours_test():
-    assert 12 == Yatzy(4, 4, 4, 5, 5).fours()
-    assert 8 == Yatzy(4, 4, 5, 5, 5).fours()
-    assert 4 == Yatzy(4, 5, 5, 5, 5).fours()
+def test_fours():
+    assert Yatzy(1, 5, 5, 5, 5).fours() == 0
+    assert Yatzy(4, 4, 5, 5, 5).fours() == 8
+    assert Yatzy(4, 4, 4, 5, 5).fours() == 12
 
 
 def test_fives():
-    assert 10 == Yatzy(4, 4, 4, 5, 5).fives()
-    assert 15 == Yatzy(4, 4, 5, 5, 5).fives()
-    assert 20 == Yatzy(4, 5, 5, 5, 5).fives()
+    assert Yatzy(4, 4, 4, 2, 3).fives() == 0
+    assert Yatzy(4, 4, 3, 2, 5).fives() == 5
+    assert Yatzy(4, 5, 5, 5, 5).fives() == 20
 
 
-def test_sixes_test():
-    assert 0 == Yatzy(4, 4, 4, 5, 5).sixes()
-    assert 6 == Yatzy(4, 4, 6, 5, 5).sixes()
-    assert 18 == Yatzy(6, 5, 6, 6, 5).sixes()
+def test_sixes():
+    assert Yatzy(4, 4, 4, 5, 5).sixes() == 0
+    assert Yatzy(4, 4, 6, 5, 5).sixes() == 6
+    assert Yatzy(6, 5, 6, 6, 5).sixes() == 18
 
 
 def test_one_pair():
-    assert 6 == Yatzy.score_pair(3, 4, 3, 5, 6)
-    assert 10 == Yatzy.score_pair(5, 3, 3, 3, 5)
-    assert 12 == Yatzy.score_pair(5, 3, 6, 6, 5)
+    assert Yatzy(3, 4, 3, 5, 6).score_pair() == 6
+    assert Yatzy(5, 3, 3, 3, 5).score_pair() == 10
+    assert Yatzy(5, 3, 6, 6, 5).score_pair() == 12
 
 
-def test_two_Pair():
-    assert 16 == Yatzy.two_pair(3, 3, 5, 4, 5)
-    assert 18 == Yatzy.two_pair(3, 3, 6, 6, 6)
-    assert 0 == Yatzy.two_pair(3, 3, 6, 5, 4)
+def test_two_pair():
+    assert Yatzy(3, 3, 5, 4, 5).two_pair() == 16
+    assert Yatzy(3, 3, 6, 6, 6).two_pair() == 18
+    assert Yatzy(3, 3, 6, 5, 4).two_pair() == 0
 
 
 def test_three_of_a_kind():
