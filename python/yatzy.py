@@ -68,10 +68,6 @@ class Yatzy:
                 return die * 3
         return 0
 
-    def _sum_dice_target(self, target):
-        count = self.dice.count(target)
-        return count * target
-
     def four_of_a_kind(self):
         """If there are four dice with the same number, score the sum of these dice."""
         first_elem_count = self.dice.count(self.dice[0])
@@ -84,44 +80,22 @@ class Yatzy:
         else:
             return 0
 
-    @staticmethod
-    def smallStraight(d1, d2, d3, d4, d5):
-        tallies = [0] * 6
-        tallies[d1 - 1] += 1
-        tallies[d2 - 1] += 1
-        tallies[d3 - 1] += 1
-        tallies[d4 - 1] += 1
-        tallies[d5 - 1] += 1
-        if (
-            tallies[0] == 1
-            and tallies[1] == 1
-            and tallies[2] == 1
-            and tallies[3] == 1
-            and tallies[4] == 1
-        ):
+    def small_straight(self):
+        """If dice are sequential starting at 1 and ending at 5, score 15 points."""
+        difference = set([1, 2, 3, 4, 5]) - set(self.dice)
+        if len(difference) == 0:
             return 15
         return 0
 
-    @staticmethod
-    def largeStraight(d1, d2, d3, d4, d5):
-        tallies = [0] * 6
-        tallies[d1 - 1] += 1
-        tallies[d2 - 1] += 1
-        tallies[d3 - 1] += 1
-        tallies[d4 - 1] += 1
-        tallies[d5 - 1] += 1
-        if (
-            tallies[1] == 1
-            and tallies[2] == 1
-            and tallies[3] == 1
-            and tallies[4] == 1
-            and tallies[5] == 1
-        ):
+    def large_straight(self):
+        """If dice are sequential starting at 2 and ending at 6, score 20 points."""
+        difference = set([2, 3, 4, 5, 6]) - set(self.dice)
+        if len(difference) == 0:
             return 20
         return 0
 
-    @staticmethod
     def fullHouse(d1, d2, d3, d4, d5):
+        """If the dice are two of a kind and three of a kind, score the sum of all the dice."""
         tallies = []
         _2 = False
         i = 0
@@ -150,3 +124,7 @@ class Yatzy:
             return _2_at * 2 + _3_at * 3
         else:
             return 0
+
+    def _sum_dice_target(self, target):
+        count = self.dice.count(target)
+        return count * target
