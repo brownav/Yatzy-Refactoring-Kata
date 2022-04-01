@@ -3,11 +3,11 @@ class Yatzy:
         self.dice = [d1, d2, d3, d4, d5]
 
     def chance(self):
-        """Scores the sum of all dice, no matter what they read"""
+        """Scores the sum of all dice, no matter what they read."""
         return sum(self.dice)
 
     def yatzy(self):
-        """If all dice have the same number, score 50 points"""
+        """If all dice have the same number, score 50 points."""
         if len(set(self.dice)) == 1:
             return 50
         return 0
@@ -31,34 +31,46 @@ class Yatzy:
         return self._sum_dice_target(6)
 
     def score_pair(self):
-        """Scores the sum of the two highest matching dice"""
-        reversed_sorted_dice = sorted(self.dice, reverse=True)
+        """Scores the sum of the two highest matching dice."""
+        self.dice.sort()
+        self.dice.reverse()
 
-        for i in range(len(reversed_sorted_dice) - 1):
-            if reversed_sorted_dice[i] == reversed_sorted_dice[i + 1]:
-                return reversed_sorted_dice[i] * 2
+        for i in range(len(self.dice) - 1):
+            if self.dice[i] == self.dice[i + 1]:
+                return self.dice[i] * 2
         return 0
-
-    def _sum_dice_target(self, target):
-        count = self.dice.count(target)
-        return count * target
 
     def two_pair(self):
         """Scores the sum of the two highest matching dice"""
-        reversed_sorted_dice = sorted(self.dice, reverse=True)
+        self.dice.sort()
+        self.dice.reverse()
 
         sum = 0
         pairs = 0
         i = 0
         while i < len(self.dice) - 1:
-            if reversed_sorted_dice[i] == reversed_sorted_dice[i + 1]:
-                sum += reversed_sorted_dice[i] * 2
+            if self.dice[i] == self.dice[i + 1]:
+                sum += self.dice[i] * 2
                 pairs += 1
                 i += 1
             if pairs == 2:
                 return sum
             i += 1
         return 0
+
+    def three_of_a_kind(self):
+        """If there are three dice with the same number, score the sum of these dice."""
+        dice_map = dict.fromkeys(self.dice, 0)
+
+        for die in self.dice:
+            dice_map[die] = dice_map[die] + 1
+            if dice_map[die] == 3:
+                return die * 3
+        return 0
+
+    def _sum_dice_target(self, target):
+        count = self.dice.count(target)
+        return count * target
 
     @staticmethod
     def four_of_a_kind(_1, _2, d3, d4, d5):
@@ -71,19 +83,6 @@ class Yatzy:
         for i in range(6):
             if tallies[i] >= 4:
                 return (i + 1) * 4
-        return 0
-
-    @staticmethod
-    def three_of_a_kind(d1, d2, d3, d4, d5):
-        t = [0] * 6
-        t[d1 - 1] += 1
-        t[d2 - 1] += 1
-        t[d3 - 1] += 1
-        t[d4 - 1] += 1
-        t[d5 - 1] += 1
-        for i in range(6):
-            if t[i] >= 3:
-                return (i + 1) * 3
         return 0
 
     @staticmethod
