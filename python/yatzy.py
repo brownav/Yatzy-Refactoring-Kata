@@ -82,48 +82,32 @@ class Yatzy:
 
     def small_straight(self):
         """If dice are sequential starting at 1 and ending at 5, score 15 points."""
-        difference = set([1, 2, 3, 4, 5]) - set(self.dice)
-        if len(difference) == 0:
+        if sorted(self.dice) == [1, 2, 3, 4, 5]:
             return 15
         return 0
 
     def large_straight(self):
         """If dice are sequential starting at 2 and ending at 6, score 20 points."""
-        difference = set([2, 3, 4, 5, 6]) - set(self.dice)
-        if len(difference) == 0:
+        if sorted(self.dice) == [2, 3, 4, 5, 6]:
             return 20
         return 0
 
-    def fullHouse(d1, d2, d3, d4, d5):
+    def full_house(self):
         """If the dice are two of a kind and three of a kind, score the sum of all the dice."""
-        tallies = []
-        _2 = False
-        i = 0
-        _2_at = 0
-        _3 = False
-        _3_at = 0
-
-        tallies = [0] * 6
-        tallies[d1 - 1] += 1
-        tallies[d2 - 1] += 1
-        tallies[d3 - 1] += 1
-        tallies[d4 - 1] += 1
-        tallies[d5 - 1] += 1
-
-        for i in range(6):
-            if tallies[i] == 2:
-                _2 = True
-                _2_at = i + 1
-
-        for i in range(6):
-            if tallies[i] == 3:
-                _3 = True
-                _3_at = i + 1
-
-        if _2 and _3:
-            return _2_at * 2 + _3_at * 3
-        else:
+        dice_map = dict.fromkeys(self.dice, 0)
+        if len(dice_map) != 2:
             return 0
+
+        for die in self.dice:
+            dice_map[die] = dice_map[die] + 1
+
+        total = 0
+        for die in dice_map:
+            if dice_map[die] != 2 and dice_map[die] != 3:
+                return 0
+            else:
+                total += die * dice_map[die]
+        return total
 
     def _sum_dice_target(self, target):
         count = self.dice.count(target)
